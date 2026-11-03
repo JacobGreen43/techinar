@@ -45,8 +45,12 @@ class Fighter:
 
     def heal(self, healing_amount):
         """Heal the fighter by a certain amount."""
-        self.health += healing_amount
-        print(f"{self.name} healed for {healing_amount} HP. Current health: {self.health}")
+        roll = randint(1, 10)
+        if roll < 5:
+            print(f"{self.name} failed to heal.")
+        else:
+            self.health += healing_amount
+            print(f"{self.name} healed for {healing_amount} HP. Current health: {self.health}")
 
 
     def wound(self, amount):
@@ -84,7 +88,6 @@ while f1.alive() and f2.alive():
         if answer.lower() == "n":
             f2.heal(f2.healing)
     if f1.alive() and f2.alive():
-        print(f"{f1.name} and {f2.name} continue the fight.")
         f1.print_status()
         f2.print_status()
         print(f"{f1.name}'s superpower is {f1.superpower}.")
@@ -92,6 +95,7 @@ while f1.alive() and f2.alive():
         answer = input(f"Should {f1.name} use their superpower? (Y or N) ")
         if answer.lower() == "y":
             f1.superpower_attack(f2)
+    if f2.alive():
         answer = input(f"Should {f2.name} use their superpower? (Y or N) ")
         if answer.lower() == "y":
             f2.superpower_attack(f1) 
