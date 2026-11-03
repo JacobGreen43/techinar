@@ -4,7 +4,7 @@ from random import randint
 class Fighter:
     """This class represents a generic fighter character."""
 
-    def __init__(self, name, health, defense, power, damage, superpower):
+    def __init__(self, name, health, defense, power, damage, superpower, healing):
         """Initialize the fighter with the given attributes."""
         self.name = name
         self.health = health
@@ -12,7 +12,7 @@ class Fighter:
         self.power = power
         self.damage = damage
         self.superpower = superpower
-
+        self.healing = healing
 
     def alive(self):
         """Determine if the fighter is alive."""
@@ -43,6 +43,11 @@ class Fighter:
         else:
             print(f"{self.name} missed their superpower.")
 
+    def heal(self, healing_amount):
+        """Heal the fighter by a certain amount."""
+        self.health += healing_amount
+        print(f"{self.name} healed for {healing_amount} HP. Current health: {self.health}")
+
 
     def wound(self, amount):
         """Apply damage to the fighter."""
@@ -57,8 +62,8 @@ class Fighter:
         print(f"{self.name} has {self.health} health.")
 
 
-f1 = Fighter(name="Retep", health=30, defense=8, power=10, damage=8, superpower="Fireball")
-f2 = Fighter(name="ModCut", health=35, defense=10, power=8, damage=6, superpower="Bowler")
+f1 = Fighter(name="Retep", health=30, defense=8, power=10, damage=8, superpower="Fireball", healing=1)
+f2 = Fighter(name="ModCut", health=35, defense=10, power=8, damage=6, superpower="Bowler", healing=1)
 
 print(f"{f1.name} vs {f2.name}")
 round = 1
@@ -70,10 +75,14 @@ while f1.alive() and f2.alive():
     answer = input(f"Should {f1.name} attack? (Y or N) ")
     if answer.lower() == "y":
         f1.attack(f2)
+    if answer.lower() == "n":
+        f1.heal(f1.healing)
     if f2.alive():
         answer = input(f"Should {f2.name} attack? (Y or N) ")
         if answer.lower() == "y":
             f2.attack(f1)
+        if answer.lower() == "n":
+            f2.heal(f2.healing)
     if f1.alive() and f2.alive():
         print(f"{f1.name} and {f2.name} continue the fight.")
         f1.print_status()
